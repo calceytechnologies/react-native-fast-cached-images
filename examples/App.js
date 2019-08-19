@@ -11,70 +11,75 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  View,
   Text,
-  StatusBar,
+  FlatList,
+  View,
 } from 'react-native';
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {CachedImage} from 'react-native-fast-cached-images';
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      dataSource: [],
+    };
+  }
+  componentDidMount() {
+    var that = this;
+    let items = Array.apply(null, Array(20)).map((v, i) => {
+      return {id: i, src: 'https://picsum.photos/id/' + (i + 10) + '/400/400'};
+    });
+    that.setState({
+      dataSource: [...items],
+    });
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <SafeAreaView>
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}>
+            <View style={styles.body}>
+              <Text style={styles.header}>react-native-fast-cached-images</Text>
+              <FlatList
+                data={this.state.dataSource}
+                renderItem={({item}) => (
+                  <View style={{flex: 1, flexDirection: 'column'}}>
+                    <CachedImage style={styles.image} imageUrl={item.src} />
+                  </View>
+                )}
+                numColumns={2}
+                keyExtractor={(item, index) => index.toString()}
+              />
             </View>
-          )}
-          <View style={styles.body}>
-            <CachedImage imageUrl="https://picsum.photos/200/300" />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+          </ScrollView>
+        </SafeAreaView>
+      </Fragment>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  image: {
+    height: 120,
+    width: '100%',
   },
   body: {
     backgroundColor: Colors.white,
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
+
+  header: {
     fontWeight: '700',
+    fontSize: 22,
+    margin: 10,
+    textAlign: 'center',
   },
   footer: {
     color: Colors.dark,

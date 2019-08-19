@@ -5233,10 +5233,10 @@ react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
   integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
 
-react-native-fast-cached-images@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-fast-cached-images/-/react-native-fast-cached-images-1.0.1.tgz#2b11e1687fadc99b95a5295eebed7c88c0ac9680"
-  integrity sha512-Ag7OL4Xi+OaiWqrhYC3T2V59sHayWDNuHdMllvVBgchzk4H3xE72jXjz6+nRBccUfaGYHjm5wOi7jP6Hw17+tA==
+react-native-fast-cached-images@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-fast-cached-images/-/react-native-fast-cached-images-1.0.3.tgz#c46f0f42ff89b80cb6304480bcf47e37ca077adf"
+  integrity sha512-b/jop6RX3Q48+I0UTeFouKttBcPqp9qjqqmcDn0y5MziYEEBmjn5ME3VCm8//MFRWdlPdjKKbufLDUihG5hMYw==
   dependencies:
     rn-fetch-blob "^0.10.16"
 
