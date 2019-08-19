@@ -1,0 +1,27 @@
+{
+  "name": "react-native-fast-cached-images",
+  "version": "1.0.1",
+  "description": "A simple and customizable caching mechanism for images fetched from an external url",
+  "main": "index.js",
+  "author": "Calcey Technologies",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/runtime": "^7.5.0",
+    "@react-native-community/eslint-config": "^0.0.3",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
+    "metro-react-native-babel-preset": "^0.56.0",
+    "react-test-renderer": "16.8.6"
+  },
+  "dependencies": {
+    "rn-fetch-blob": "^0.10.16"
+  },
+  "peerDependencies": {
+    "react": "16.8.6",
+    "react-native": "0.60.5"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
