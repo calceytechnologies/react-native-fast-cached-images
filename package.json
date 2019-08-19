@@ -1,6 +1,6 @@
 {
   "name": "react-native-fast-cached-images",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple and customizable caching mechanism for images fetched from an external url",
   "main": "index.js",
   "author": "Calcey Technologies",

@@ -1,8 +1,8 @@
-import React from "react";
-import { View, StyleSheet, Image, ActivityIndicator } from "react-native";
-import RNFetchBlob from "rn-fetch-blob";
-
-import { CacheContextConsumer, CacheContextInterface } from "./CacheContext";
+import React from 'react';
+import {View, StyleSheet, Image} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
+import loader from '../assets/loader.gif';
+import {CacheContextConsumer, CacheContextInterface} from './CacheContext';
 
 export interface CacheImageProps {
   imageUrl: string;
@@ -45,26 +45,26 @@ export default class CacheImage extends React.PureComponent<
   };
 
   getFileExtentension = (url: string) => {
-    const pathParts: string[] = url.split("/");
+    const pathParts: string[] = url.split('/');
     const fileName: string | undefined = pathParts.pop();
 
     if (fileName) {
-      const parts: string[] = fileName.split(".");
+      const parts: string[] = fileName.split('.');
       const extension: string | undefined = parts.pop();
 
-      return extension ? extension : "";
+      return extension ? extension : '';
     }
 
-    return "";
+    return '';
   };
 
   generateFileName = (url: string) => {
-    return url.toLowerCase().replace(/[^a-zA-Z0-9]/g, "");
+    return url.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
   };
 
   cacheImage = async (context: CacheContextInterface) => {
-    const { imageUrl } = this.props;
-    const { cacheDirectoryName } = context;
+    const {imageUrl} = this.props;
+    const {cacheDirectoryName} = context;
     const fileName: string = this.generateFileName(imageUrl);
     const fileType: string = this.getFileExtentension(imageUrl);
     const cacheDirectory: string = `${
@@ -84,7 +84,7 @@ export default class CacheImage extends React.PureComponent<
         fileCache: true,
         path: filePath
       })
-        .fetch("GET", imageUrl)
+        .fetch('GET', imageUrl)
         .then(res =>
           this.setState({
             imagePath: res.path(),
@@ -96,14 +96,13 @@ export default class CacheImage extends React.PureComponent<
   };
 
   renderLoader = () => {
-    return <ActivityIndicator color="white" size="small" />;
+    // return <ActivityIndicator color="white" size="small" />;
+    return <Image source={loader} style={styles.image} />;
   };
 
   renderImage = () => {
-    const { imagePath } = this.state;
-    return (
-      <Image source={{ uri: "file://" + imagePath }} style={styles.image} />
-    );
+    const {imagePath} = this.state;
+    return <Image source={{uri: 'file://' + imagePath}} style={styles.image} />;
   };
 
   renderContent = (context: CacheContextInterface) => {
@@ -132,9 +131,9 @@ export default class CacheImage extends React.PureComponent<
 const styles = StyleSheet.create({
   container: {
     margin: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "#78909C",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#78909C',
     width: 200,
     height: 200
   },
