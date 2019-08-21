@@ -1,18 +1,14 @@
-# react-native-fast-cached-images
-
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+# :rocket: react-native-fast-cached-images
 
 A simple yet powerful image caching component with offline image support built for react native
 
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+
+![](https://media.giphy.com/media/H21EodQjLUJNFzfe47/giphy.gif)
+
 # Features
 
-TODO
-
 # Table of Content
-
-TODO
 
 # About
 
