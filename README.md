@@ -10,6 +10,7 @@ A simple yet powerful image caching component with offline image support built f
 
 - **Cache images to load fast**
 - **Offline image support**
+- **React Context API support for controlling the cache from anywhere**
 - **High quality images shown only when internet connection is available**
 - **Takes only a limited amount of storage for image cache and handles it automatically**
 
@@ -22,7 +23,7 @@ When we are working with images speed of loading is a crucial factor. We suggest
 ```
 import React, {ReactElement} from 'react';
 import {View, FlatList} from 'react-native';
-import CacheImage from '../../../../persistence/caching/CacheImage';
+import {CachedImage} from 'react-native-fast-cached-images';
 import styles from './gallery.styles';
 
 
