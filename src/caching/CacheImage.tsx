@@ -1,11 +1,19 @@
 import React from 'react';
-import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-
+import {Placeholder, PlaceholderMedia, Shine} from 'rn-placeholder';
 import {CacheContextConsumer, CacheContextInterface} from './CacheContext';
 
 export interface CacheImageProps {
   imageUrl: string;
+  fromCache: boolean;
+  coverMode: boolean;
+  onPress: () => {};
 }
 
 export interface CacheImageState {
@@ -44,13 +52,13 @@ export default class CacheImage extends React.PureComponent<
   };
 
   public getFileExtentension = (url: string) => {
-    const pathParts: string[] = url.split('/');
+    const queryParamsRemoved = url.split('?')[0];
+    const pathParts: string[] = queryParamsRemoved.split('/');
     const fileName: string | undefined = pathParts.pop();
 
     if (fileName) {
       const parts: string[] = fileName.split('.');
       const extension: string | undefined = parts.pop();
-
       return extension ? extension : '';
     }
 
@@ -66,11 +74,8 @@ export default class CacheImage extends React.PureComponent<
     const {cacheDirectoryName} = context;
     const fileName: string = this.generateFileName(imageUrl);
     const fileType: string = this.getFileExtentension(imageUrl);
-    const cacheDirectory: string = `${
-      RNFetchBlob.fs.dirs.CacheDir
-    }/${cacheDirectoryName}/`;
+    const cacheDirectory: string = `${RNFetchBlob.fs.dirs.CacheDir}/${cacheDirectoryName}/`;
     const filePath = cacheDirectory + fileName + fileType;
-
     try {
       await this.checkFileExist(filePath);
       this.setState({
@@ -96,33 +101,46 @@ export default class CacheImage extends React.PureComponent<
 
   public renderLoader = () => {
     return (
-      <ActivityIndicator
-        color='white'
-        size='small'
-        style={this.props.imageStyles || styles.image}
-      />
+      <Placeholder Animation={Shine}>
+        <PlaceholderMedia style={this.props.imageStyles || styles.image} />
+      </Placeholder>
     );
   };
 
   public renderImage = () => {
     const {imagePath} = this.state;
-    return (
-      <Image
-        source={{uri: 'file://' + imagePath}}
-        style={this.props.imageStyles || styles.image}
-      />
-    );
+    const {fromCache = true, imageUrl, coverMode = true} = this.props;
+
+    if (coverMode) {
+      return (
+        <ImageBackground
+          resizeMode={'cover'}
+          style={this.props.imageStyles || styles.image}
+          source={{uri: fromCache ? 'file://' + imagePath : imageUrl}}
+        >
+          {this.props.children}
+        </ImageBackground>
+      );
+    } else {
+      return (
+        <Image
+          resizeMode={'contain'}
+          source={{uri: fromCache ? 'file://' + imagePath : imageUrl}}
+          style={this.props.imageStyles || styles.image}
+        />
+      );
+    }
   };
 
   public renderContent = (context: CacheContextInterface) => {
     let content = null;
     if (this.state.isLoading) {
-      this.cacheImage(context);
+      const {fromCache} = this.props;
+      this.cacheImage(context); // get from cache
       content = this.renderLoader();
     } else {
       content = this.renderImage();
     }
-
     return content;
   };
 
@@ -130,9 +148,12 @@ export default class CacheImage extends React.PureComponent<
     return (
       <CacheContextConsumer>
         {context => (
-          <View style={this.props.containerStyles || styles.container}>
+          <TouchableOpacity
+            style={this.props.containerStyles || styles.container}
+            {...this.props}
+          >
             {this.renderContent(context)}
-          </View>
+          </TouchableOpacity>
         )}
       </CacheContextConsumer>
     );
@@ -144,12 +165,11 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#78909C',
-    width: 200,
-    height: 200
+    width: '100%',
+    height: '100%'
   },
   image: {
-    width: 200,
-    height: 200
+    width: '100%',
+    height: '100%'
   }
 });

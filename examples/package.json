@@ -10,7 +10,7 @@
   "dependencies": {
     "react": "16.8.6",
     "react-native": "0.60.5",
-    "react-native-fast-cached-images": "^1.0.3",
+    "react-native-fast-cached-images": "file:../react-native-fast-cached-images-1.0.4.tgz",
     "rn-fetch-blob": "^0.10.16"
   },
   "devDependencies": {

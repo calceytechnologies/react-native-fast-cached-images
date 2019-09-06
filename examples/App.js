@@ -29,7 +29,7 @@ class App extends React.Component {
   componentDidMount() {
     var that = this;
     let items = Array.apply(null, Array(20)).map((v, i) => {
-      return {id: i, src: 'https://picsum.photos/id/' + (i + 10) + '/400/400'};
+      return {id: i, src: 'https://picsum.photos/id/' + (i + 50) + '/400/400'};
     });
     that.setState({
       dataSource: [...items],
@@ -48,9 +48,10 @@ class App extends React.Component {
               <FlatList
                 data={this.state.dataSource}
                 renderItem={({item}) => (
-                  <View style={{flex: 1, flexDirection: 'column'}}>
-                    <CachedImage style={styles.image} imageUrl={item.src} />
-                  </View>
+                  <CachedImage
+                    onPress={() => alert('click')}
+                    imageUrl={item.src}
+                  />
                 )}
                 numColumns={2}
                 keyExtractor={(item, index) => index.toString()}
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 120,
-    width: '100%',
+    width: 120,
   },
   body: {
     backgroundColor: Colors.white,

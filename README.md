@@ -11,8 +11,8 @@ A simple yet powerful image caching component with offline image support built f
 - **Cache images to load fast**
 - **Offline image support**
 - **React Context API support for controlling the cache from anywhere**
-- **High quality images shown only when internet connection is available**
-- **Takes only a limited amount of storage for image cache and handles it automatically**
+- **Control amount of storage for image caching or handle it automatically**
+- **High quality images shown only when internet connection is available (TODO)**
 
 ## About
 
@@ -45,6 +45,18 @@ class App extends React.PureComponent {
 
 export default App;
 ```
+
+here are the `props` you can pass to customize the component
+
+| prop            | type          | default | usage                                                                                             |
+| --------------- | ------------- | ------- | ------------------------------------------------------------------------------------------------- |
+| imageUrl*       | string        | none    | set online image url to the component and component will cache it automatically (s3, imgur etc..) |
+| imageStyles     | style object  | 100%    | set CSS for container of the image component)                                                     |
+| containerStyles | style object  | 100%    | set CSS for the image component                                                                   |
+| fromCache       | boolean       | true    | prop to control caching ability dynamically                                                       |
+| coverMode       | boolean       | true    | resize mode "cover" vs "contain"                                                                  |
+| children        | React Element | none    | Can pass overlay components for the image background                                              |
+
 
 ## Installation
 
@@ -118,7 +130,9 @@ If you don't receive permission update the app permissions from app settings in 
 
 ## Authors
 
+- **Dhanushka Gunathilake** - _Initial work_
 - **Manuka Prabath** - _Initial work_
+- **Asela Wijesinghe** - _Moderator/Maintainer_
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
