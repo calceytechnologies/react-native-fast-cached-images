@@ -9,54 +9,63 @@ A simple yet powerful image caching component with offline image support built f
 ## Features
 
 - **Cache images to load fast**
-- **Offline image support**
-- **React Context API support for controlling the cache from anywhere**
+- **Fully offline image support for offline apps**
 - **Control amount of storage for image caching or handle it automatically**
+- **React Context API support for Accessing the cache from anywhere**
 - **High quality images shown only when internet connection is available (TODO)**
 
 ## About
 
-When we are working with images speed of loading is a crucial factor. We suggest a simple and lightweight **CachedImage** component to handle the images automatically for you based on internet connectivity and multiple qualities of images.
+When we are working with images speed of loading is a crucial factor. We suggest a simple and lightweight **CachedImage** component to handle the images automatically for you based on the internet connectivity or manually with your own logics.
 
 ## How to use
 
-```
-import React, {ReactElement} from 'react';
-import {View, FlatList} from 'react-native';
-import {CachedImage} from 'react-native-fast-cached-images';
-import styles from './gallery.styles';
+#### basic usage
 
+put this code anywhere you like in your code with its relevant styles
+
+```javascript
+import React from 'react';
+import {CachedImage} from 'react-native-fast-cached-images';
 
 class App extends React.PureComponent {
 
   render() {
     return (
-      <View style={styles.container}>
             <CacheImage
               containerStyles={styles.imageContainer}
               imageStyles={styles.image}
               imageUrl={IMAGE_URL_PATH (S3, imgur etc.. or file path)}
             />
           )}
-      </View>
-    );
+       );
   };
 }
 
 export default App;
 ```
 
-here are the `props` you can pass to customize the component
+#### advanced usage
 
-| prop            | type          | default | usage                                                                                             |
-| --------------- | ------------- | ------- | ------------------------------------------------------------------------------------------------- |
-| imageUrl*       | string        | none    | set online image url to the component and component will cache it automatically (s3, imgur etc..) |
-| imageStyles     | style object  | 100%    | set CSS for container of the image component)                                                     |
-| containerStyles | style object  | 100%    | set CSS for the image component                                                                   |
-| fromCache       | boolean       | true    | prop to control caching ability dynamically                                                       |
-| coverMode       | boolean       | true    | resize mode "cover" vs "contain"                                                                  |
-| children        | React Element | none    | Can pass overlay components for the image background                                              |
+here are all the `props` you can pass to customize the component
 
+| prop                 | type          | default | usage                                                                                             |
+| -------------------- | ------------- | ------- | ------------------------------------------------------------------------------------------------- |
+| imageUrl\*           | string        | none    | set online image url to the component and component will cache it automatically (s3, imgur etc..) |
+| imageStyles          | style object  | 100%    | set CSS for image component                                                                       |
+| containerStyles      | style object  | 100%    | set CSS for the container of the image component                                                  |
+| fromCache\*          | boolean       | true    | prop to control caching ability dynamically (If caching is needed or not)                         |
+| coverMode            | boolean       | true    | resize mode "cover" vs "contain"                                                                  |
+| isLoading            | boolean       | none    | Manually control the loading state of the placeholder                                             |
+| children             | React Element | none    | Can pass overlay components for the image background                                              |
+| onPress              | function      | none    | pass the handler for image onClick event                                                          |
+| imageBackgroundStyle | style object  | none    | Can pass CSS directly to image background ( if only coverMode=true )                              |
+| placeholderStyles    | style object  | 100%    | Can pass CSS directly to placeholder component                                                    |
+| activeOpacity        | number        | 1       | When clicking on image should there be a highlight                                                |
+| blurRadius           | number        | 0       | When images are switching should there be a blur effect                                           |
+| cacheFolder          | string        | ''      | Specify which folder the file Cache should go to                                                  |
+| placeholderStyles    | style object  | 100%    | Can pass CSS directly to placeholder component                                                    |
+| retryCount           | number        | 1       | how many times a failed image should retry to download                                            |
 
 ## Installation
 
@@ -70,7 +79,7 @@ then
 
 #### Manually Link Native Modules
 
-If automatically linking doesn't work for you, see instructions on manually linking.
+If automatically linking doesn't work for you, see instructions on [manually linking.](https://github.com/joltup/rn-fetch-blob/wiki/Manually-Link-Package#index)
 
 #### Automatically Link Native Modules
 
@@ -78,19 +87,11 @@ For 0.29.2+ projects, simply link native packages via the following command (not
 
 `react-native link`
 
-As for projects < 0.29 you need rnpm to link native packages
-
-`rnpm link`
-
 Optionally, use the following command to add Android permissions to AndroidManifest.xml automatically
 
 `RNFB_ANDROID_PERMISSIONS=true react-native link`
 
-pre 0.29 projects
-
-`RNFB_ANDROID_PERMISSIONS=true rnpm link`
-
-The link script might not take effect if you have non-default project structure, please visit the wiki to link the package manually.
+The link script might not take effect if you have non-default project structure, please visit the wiki to link the package manually. If you are using any a lower `react-native` version <60 or having any difficulties installing this use this [link.](https://github.com/joltup/rn-fetch-blob#user-content-installation) for advanced setup options
 
 #### Grant Permission to External storage for Android 5.0 or lower
 
@@ -98,7 +99,7 @@ The mechanism for granting Android permissions has slightly different since Andr
 
 If you're going to access external storage (say, SD card storage) for Android 5.0 (or lower) devices, you might have to add the following line to AndroidManifest.xml.
 
-```
+```javascript
      <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.rnfetchblobtest"
           android:versionCode="1"
@@ -110,19 +111,9 @@ If you're going to access external storage (say, SD card storage) for Android 5.
           +   <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 ```
 
-Also, if you're going to use Android Download Manager you have to add this to AndroidManifest.xml
-
-```
-     <intent-filter>
-          <action android:name="android.intent.action.MAIN" />
-          <category android:name="android.intent.category.LAUNCHER" />
-     +    <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-      </intent-filter>
-```
-
 #### Grant Access Permission for Android 6.0
 
-Beginning in Android 6.0 (API level 23), users grant permissions to apps while the app is running, not when they install the app. So adding permissions in AndroidManifest.xml won't work for Android 6.0+ devices. To grant permissions in runtime, you might use PermissionAndroid API.
+Beginning in Android 6.0 (API level 23), users grant permissions to apps while the app is running, not when they install the app. So adding permissions in AndroidManifest.xml won't work for Android 6.0+ devices. To grant permissions in runtime, you might use [PermissionAndroid API](https://facebook.github.io/react-native/docs/permissionsandroid.html).
 
 #### Manually Granting Access Permission
 
@@ -130,8 +121,8 @@ If you don't receive permission update the app permissions from app settings in 
 
 ## Authors
 
-- **Dhanushka Gunathilake** - _Initial work_
 - **Manuka Prabath** - _Initial work_
+- **Dhanushka Gunathilake** - _Initial work_
 - **Asela Wijesinghe** - _Moderator/Maintainer_
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
